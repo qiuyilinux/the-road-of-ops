@@ -10,7 +10,7 @@
 - php-xml ： 内建的DOM解释器使在PHP中处理XML文档成为可能。
 - php-xmlrpc ： 可以通过XML-RPC让不同平台的软件互相交互，是一种使用HTTP协议传输XML格式文件来获取远程程序调用的传输方式。
 - php-mbstring ： mbstring库全称是Multi-Byte string 即各种语言都有自己的二编码，他们字节数是不一样的，目前php内部编码只支持ISO-8859-*，EUS-JP，UTF-8其他的编码语言是没办法在php程序上正确显示的。解决的方法就是通过php的mbstring函数库来解决。
-- php-snmp ： SNMP提供了一个非常简单和容易使用的工具集，用于通过简单的网络管理西医远程设备。
+- php-snmp ： SNMP提供了一个非常简单和容易使用的工具集，用于通过简单的网络管理远程设备。
 - curl-devel ： 类似curl，算是扩展。
 - php-bcmath ： 精确计算模块，对于任意精度的数学，PHP提供了支持用字符串表示的任意大小和精度的数字的二进制计算，最多为2147483647-1。
 - php-soap ： 实际上SOAP扩展就是一个更好用，速度更快，专门用于处理SOAP服务器的HTTP封装库。
