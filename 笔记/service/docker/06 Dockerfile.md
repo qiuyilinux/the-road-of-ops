@@ -1,3 +1,5 @@
+
+
 # 一、 Dockerfile 介绍
 
 Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。有了 Dockerfile，当我们需要定制自己额外的需求时，只需在 Dockerfile 上添加或者修改指令，重新生成 image 即可，省去了敲命令的麻烦。
@@ -157,14 +159,100 @@ ENTRYPOINT ["nginx", "-g"]
 
 # 六、 PHP 
 
+```dockerfile
+FROM centos:7
+LABEL maintariner gongbosheng
+
+WORKDIR /usr/local
+RUN yum install -y epel-release && \
+    yum install -y gcc gcc-c++ make gd-devel libxml2-devel \
+    libcurl-devel libjpeg-devel libpng-devel openssl-devel \
+    libmcrypt-devel libxslt-devel libtidy-devel autoconf \
+    iproute net-tools telnet wget curl && \
+    yum clean all && \
+    rm -rf /var/cache/yum/*
+
+ADD php-7.3.29.tar.gz .
+RUN cd php-7.3.29 && \
+    ./configure --prefix=/usr/local/php \
+    --with-config-file-path=/usr/local/php/etc/ \
+    --enable-fpm --enable-opcache \
+    --with-mysql --with-mysqli --with-pdo-mysql \
+    --with-openssl --with-zlib --with-curl --with-gd \
+    --with-jpeg-dir --with-png-dir --with-freetype-dir \
+    --enable-mbstring --with-mcrypt --enable-hash && \
+    make -j 4 && make install && \
+    cp php.ini-production /usr/local/php/etc/php.ini && \
+    cp sapi/fpm/php-fpm.conf /usr/local/php/etc/php-fpm.conf && \
+    cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf && \
+    sed -i "90a \daemonize = no" /usr/local/php/etc/php-fpm.conf && \
+    mkdir /usr/local/php/log && \
+    cd /usr/local && rm -rf php-7.3.29.tar.gz && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+ENV PATH $PATH:/usr/local/php/sbin
+# COPY php.ini /usr/local/php/etc/
+# COPY php-fpm.conf /usr/local/php/etc/
+WORKDIR /usr/local/php
+EXPOSE 9000
+ENTRYPOINT ["php-fpm"]
 ```
 
+# 七、 Mysql
+
+```shell
+docker run -d \
+--name task_mysql \
+--net dnm \
+-v mysql-vol:/var/lib/mysql \
+-p 3306:3306 \
+-e MYSQL_ROOT_PASSWORD=123456 \
+-e MYSQL_DATABASE=task \
+mysql:5.7 \
+--character-set-server=utf8
 ```
-
-
-
-# 七、 boke
 
 # 八、 Tomcat
 
+```dockerfile
+FROM centos:7
+LABEL maintainer gongbosheng
+
+ENV VERSION=8.5.43
+
+RUN yum install java-1.8.0-openjdk wget curl unzip iproute net-tools -y && \
+    yum clean all && \
+    rm -rf /var/cache/yum/*
+
+ADD apache-tomcat-${VERSION}.tar.gz /usr/local
+RUN mv /usr/local/apache-tomcat-${VERSION} /usr/local/tomcat && \
+    sed -i '1a JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom"' /usr/local/tomcat/bin/catalina.sh && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+ENV PATH $PATH:/usr/local/tomcat/bin
+WORKDIR /usr/local/tomcat
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
+```
+
 # 九、 微服务
+
+```dockerfile
+FROM java:8-jdk-alpine
+LABEL maintainer gongbosheng
+ENV JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF8 -Duser.timezong=GMT+08"
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+    apk add -U tzdata && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+COPY xx.jar /
+EXPOSE 8888
+CMD ["/bin/sh", "-c", "java -jar $JAVA_OPTS /xx.jar"]
+```
+
+# 十、 Dokcerfile 规范
+
+- 减少镜像层： 一次 RUN 质量行程新的一层，尽量 Shell 命令都写在一行，减少镜像层。
+- 优化镜像大小： 一次 RUN 形成新的一层，如果没有在同一层删除无论文件最后是否删除，都会带到下一层，所以要在每一层清理对应的残留数据，减少镜像大小。
+- 减少网络传输时间L例如软件包、 MVN 仓库等。
+- 多阶段构建： 代码编译、部署在一个 Dockerfile 完成， 只会保留部署阶段产生的数据。
+- 选择最小的基础镜像： 例如 alpine 。
