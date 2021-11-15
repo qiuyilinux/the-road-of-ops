@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://127.0.0.1:8000/index/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>每日任务</title>
+        <script></script>
+        <style>
+            body,a,ul,ol,li,dl,dt,dd{
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                text-decoration: none;
+                color: #000;
+		    }
+
+            #head {
+                display: block;
+                width: 100%;
+                height: 100px;
+                background-color: #FEC513;
+                font-size: 30px;
+                color: black;
+                text-align: center;
+            }
+
+            #head > li {
+                box-sizing: border-box;
+                display: block;
+                height: 100px;
+                width: 25%;
+                float: left;
+                padding-top: 20px;
+                border-right: 2px solid green;
+            }
+
+            #head > li:last-child {
+                border-right: none;
+            }
+
+            #head > li:hover {
+                background-color: #fff;
+                cursor: pointer;
+            }
+
+            #task_list {
+                display: block;
+                width: 100%;
+                height: 100%;
+                background-color: red;
+            }
+
+            #task_list > li {
+                height: 50px;
+                background-color: green;
+                font-size: 20px;
+                text-align: left;
+            }
+
+            #task_list > li > div {
+                float: left;
+            }
+
+            #task_list > li > div:nth-child(1) {
+                box-sizing: border-box;
+                height: 50px;
+                width: 80%;
+                background-color: blue;
+            }
+
+            #task_list > li > div:nth-child(2) {
+                box-sizing: border-box;
+                width: 20%;
+            }
+
+            #task_list > li > div:nth-child(2) > div{
+                box-sizing: border-box;
+                height: 50px;
+                width: 25%;
+                background-color: red;
+                float: left;
+            }
+
+            #add {
+                background-color: orange;
+                height: 50px;
+                width: 100%;
+            }
+
+            #add > input {
+                box-sizing: border-box;
+                outline-style: none ;
+                border: 1px solid #ccc; 
+                border-radius: 3px;
+                padding: 10px 10px;
+                width: 620px;
+                font-size: 24px;
+                float: left;
+                width: 80%;
+                
+            }
+        </style>
+    <style type="text/css" abt="234"></style><script>//remove baidu search ad
+var _countAA = 0
+function doBBBd(){}
+doBBBd()
+document.addEventListener('keyup', function(){_countAA-=10;doBBBd()}, false)
+document.addEventListener('click', function(){_countAA-=10;doBBBd()}, false)
+
+</script></head>
+    <body>
+        <ul id="head">
+            <li>HISTORY</li>
+            <li>TODAY</li>
+            <li>PLAN</li>
+            <li>DIAGRAM</li>
+        </ul>
+
+        <ul id="task_list">
+            <li>
+                <div>12</div>
+                <div>
+                    <div>1</div>
+                    <div>2</div>
+                    <div>3</div>
+                    <div>4</div>
+                </div>
+            </li>
+        </ul>
+
+        <div id="add">
+            <input type="text">
+            <div>确认</div>
+        </div>
+            
+    
+</body></html>
