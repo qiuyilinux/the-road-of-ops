@@ -136,6 +136,30 @@ lsmod | grep -i kvm
 
 
 
+## 1 创建磁盘镜像文件
+
+```shell
+qemu-img create -f qcow2 /data/kvm/test.qcow2 50G
+```
+
+
+
+## 2 创建虚拟机
+
+```shell
+windows虚拟机创建:
+virt-install --name win2019_base --ram 4096 --vcpus=2 --os-type=windows --accelerate --cdrom=/data1/iso/cn_windows_server_2019_updated_march_2019_x64_dvd_c1ffb46c.iso --disk path=/data1/os/kvm/system/base/win2019_base.qcow2,size=60,format=qcow2,bus=ide --bridge=br0 --vnc --vncport=60110  --vnclisten=0.0.0.0
+
+linux 虚拟机创建:
+virt-install --name test --ram 2048 --vcpus=1 --os-type=linux --accelerate --cdrom=/package/CentOS-Stream-9-latest-x86_64-dvd1.iso --disk path=/data/kvm/test.qcow2,size=50,format=qcow2,bus=ide --bridge=virbr0 --vnc --vncport=60000 --vnclisten=0.0.0.0
+```
+
+
+
+
+
+
+
 # 四、 virsh 命令详解
 
 
@@ -165,7 +189,7 @@ virsh [command] [args]
 - connect                           重新连接到 hypervisor
 - console                           从一个 xml 文件 创建一个虚拟机
 - start                                 开启一个非活跃的虚拟机
-- destory                            删除一个虚拟机
+- destroy                            停止一个虚拟机
 - define                              从 XML 文件定义一个虚拟机
 - domid                             把一个虚拟机名或 UUID 转换为 ID
 - dominfo                          查看虚拟机信息
@@ -174,7 +198,7 @@ virsh [command] [args]
 - domifstat                        获取虚拟机网络接口状态
 - dumpxml                        xml 中虚拟机的信息
 - edit                                  编辑某个虚拟机的 xml 文件
-- list                                  列出虚拟机
+- list                                   列出虚拟机
 - migrate                           将虚拟机迁移到另一台主机
 - reboot                            重新启动一个虚拟机
 - resume                           重新恢复一个虚拟机
