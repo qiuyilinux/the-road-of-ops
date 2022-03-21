@@ -40,10 +40,16 @@ wget https://github.com/goharbor/harbor/releases/download/v2.3.1/harbor-offline-
 tar zxvf harbor-offline-installer-v2.3.1.tgz
 cd harbor
 cp harbor.yml.tmpl harbor.yml
-vi harbor.yml # 注释 https 相关配置
+vi harbor.yml 
+# 注释 https 相关配置
+# 修改 hostname = ip 或者 域名
 
 ./prepare
 ./install.sh
+
+# 默认用户密码
+# admin
+# Harbor12345
 ```
 
 ## （2） Harbor 部署 http

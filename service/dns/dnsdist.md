@@ -135,6 +135,11 @@ office:addMask("10.254.38.244/32")
 private = newNMG()
 private:addMask("192.168.122.0/24")
 
+
+-- 前端页面
+-- 默认用户名 root
+webserver("192.168.122.21:8083","password")
+
 -- 劫持
 -- 劫持到代理服务器
 -- 如下实现 不同的请求地址 解析到不同的 ip
