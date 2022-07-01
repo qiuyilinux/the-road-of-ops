@@ -50,6 +50,11 @@ vi harbor.yml
 # 默认用户密码
 # admin
 # Harbor12345
+
+
+# docker 开机自启
+systemctl start docker 
+systemctl enable docker 
 ```
 
 ## （2） Harbor 部署 http
@@ -183,7 +188,11 @@ mkdir -p /etc/docker/certs.d/10.0.34.129
 mv /root/10.0.34.129.pem /etc/docker/certs.d/10.0.34.129/10.0.34.129.crt
 
 5. login 测试
-docker login www.bosheng.com -u admin -p Harbor12345
+docker login sheng.harbor.com -u admin -p Harbor12345
+
+6. docker 推送命令
+docker tag SOURCE_IMAGE[:TAG] 192.168.122.58/study/REPOSITORY[:TAG]
+docker push 192.168.122.58/study/REPOSITORY[:TAG]
 
 ```
 

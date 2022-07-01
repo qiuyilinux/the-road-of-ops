@@ -1,3 +1,9 @@
+> 参考： 
+>
+> 阿良
+>
+> https://juejin.cn/post/7007362174843060255
+
 ## 1 Kubernetes 核心概念
 
 **有了 docker 为什么要用 kubernetes？**
@@ -37,19 +43,35 @@
 
 - kube-apiserver
 
-kubernetes api， 集群的统一入口，各组件协调者，以RESTful API 提供接口服务，所有对象资源的增删改查和监听操作都交给 API server 处理后再提交给 Etcd 存储。
+kubernetes api， 集群的统一入口，各组件协调者，以RESTful API 提供接口服务，所有对象资源的增删改查和监听操作都交给 API server 处理后再提交给 Etcd 存储。K8s集群资源操作提供唯一入口，并提供认证、授权、访问控制、API 注册和发现机制。
 
 - kube-controller-manager
 
-处理集群中常规后台任务，一个资源对应一个控制器，而 Controller Manager 就是负责管理这些控制器的。
+k8s在后台运行许多不同的控制器进程，当服务配置发生更改时（例如，替换运行 pod 的镜像，或更改配置 yaml 文件中的参数），控制器会发现更改并开始朝着新的期望状态工作。
+
+从逻辑上讲，每个控制器都是一个单独的进程， 但是为了降低复杂性，它们都被编译到同一个可执行文件，并在一个进程中运行。
+
+控制器包括:
+
+节点控制器（Node Controller）: 负责在节点出现故障时进行通知和响应
+
+任务控制器（Job controller）: 监测代表一次性任务的 Job 对象，然后创建 Pods 来运行这些任务直至完成
+
+端点控制器（Endpoints Controller）: 填充端点(Endpoints)对象(即加入 Service 与 Pod)
+
+服务帐户和令牌控制器（Service Account & Token Controllers）: 为新的命名空间创建默认帐户和 API 访问令牌
 
 - kube-scheduler
 
-根据调度算法为新创建的 pod 选择一个 Node 节点，可以任意部署，可以部署在同一个节点，也可以部署在不通的节点上。
+kube-scheduler 负责监视新创建、未指定运行Node的 Pods，决策出一个让pod运行的节点。
+
+例如，如果应用程序需要 1GB 内存和 2 个 CPU 内核，那么该应用程序的 pod 将被安排在至少具有这些资源的节点上。每次需要调度 pod 时，调度程序都会运行。调度程序必须知道可用的总资源以及分配给每个节点上现有工作负载的资源。
+
+调度决策考虑的因素包括单个 Pod 和 Pod 集合的资源需求、硬件/软件/策略约束、亲和性和反亲和性规范、数据位置、工作负载间的干扰和最后时限。
 
 - etcd
 
-分布式键值存储系统。用于保存集群状态数据，比如 Pod， Service 等对象信息。
+etcd 是兼具一致性和高可用性的键值数据库，可以作为保存 Kubernetes 所有集群数据的后台数据库(例如 Pod 的数量、状态、命名空间等）、API 对象和服务发现细节。 在生产级k8s中etcd通常会以集群的方式存在，安全原因，它只能从 API 服务器访问。
 
 #### Node 组件
 
@@ -111,4 +133,6 @@ Kubernetes 计划弃用就是 kubelet 中 dockershim。 即 kubernetes kubelet �
 
 - containerd： containerd 与 docker 相兼容，相比 docker 轻量很多，目前较为成熟。
 - cri-o，podman： 都是红帽（RedHat）项目，目前红帽主推 podman
+
+
 

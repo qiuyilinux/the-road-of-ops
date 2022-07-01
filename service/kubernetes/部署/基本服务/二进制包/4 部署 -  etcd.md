@@ -178,7 +178,7 @@ systemctl enable etcd
 集群配置修改
 
 ```shell
-vi /opt/etcd/cfg/etcd.conf
+vi /usr/local/etcd/cfg/etcd.conf
 #[Member]
 ETCD_NAME="etcd-1"   # 修改此处，节点2改为etcd-2，节点3改为etcd-3
 ETCD_DATA_DIR="/var/lib/etcd/default.etcd"

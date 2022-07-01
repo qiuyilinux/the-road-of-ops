@@ -112,3 +112,23 @@ git config --global credential.helper store
 # 输入一次之后就不需要输入了 也可以设置成 cache 然后设置 cache 时间（密码保存时间）
 ```
 
+
+
+## 6 git clone 指定用户名密码
+
+```shell
+git clone http://userName:password@链接地址
+```
+
+
+
+## 二、 高级
+
+**100M 问题**
+
+```shell
+git add .
+git commit -m "100m"
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch fixtures/11_user_answer.json'
+```
+
